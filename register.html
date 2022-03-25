@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>Register</title>
+</head>
+<body>
+    <h1>Registration Form</h1>
+    <table border="2">
+        <form>
+        <tr>
+            <td> <label>Name</label> </td>
+            <td> <input type="text" name="Name" id=""> </td>
+        </tr>
+
+        <tr>
+            <td> <label>Password</label> </td>
+            <td> <input type="password" name="Password" id=""> </td>
+        </tr>
+
+        <tr>
+            <td><label for="email">Email ID</label></td>
+            <td><input type="email"></td>
+        </tr>
+
+        <tr>
+            <td> <label>Age</label> </td>
+            <td> <input type="number" name="Age" id=""> </td>
+        </tr>
+
+        <tr>
+            <td> <label>Gender</label> </td>
+            <td>
+                <label for="male">Male</label>
+                <input type="radio" name="gender" id="">
+                <label for="female">Female  </label>
+                <input type="radio" name="gender" id="">
+            </td>
+        </tr>
+
+        <tr>
+            <td> <label>College address</label> </td>
+            <td> <textarea name="college-address" id="" cols="30" rows="4"></textarea> </td>
+        </tr>
+
+        <tr>
+            <td> <label>Branch</label> </td>
+            <td> <input type="text" name="branch" id=""> </td>
+        </tr>
+
+        <tr>
+            <td> <label>Technical skills</label> </td>
+            <td>
+                <input type="radio" name="skills" id="">
+                <label for="skills">C</label>
+                <input type="radio" name="skills" id="">
+                <label for="skills">Java</label>
+                <input type="radio" name="skills" id="">
+                <label for="skills">Python</label>
+                <input type="radio" name="skills" id="">
+                <label for="skills">JSP</label>
+            </td>
+        </tr>
+
+        <tr>
+            <td> <label>Resume upload</label> </td>
+            <td> <input type="file" name="resume" id=""> </td>
+        </tr>
+        </form>
+    </table>
+    <br />
+    <input type="button" value="submit">
+    <input type="button" value="reset">
+</body>
+</html>

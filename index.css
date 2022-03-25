@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=IBM+Plex+Serif&family=Zilla+Slab:wght@300;400&display=swap');
+
+:root {
+  --link-color: #01a3a4;
+  --bg-color: #fafafa;
+  --font-serif-2: "Zilla Slab";
+  --font-serif-1: "IBM Plex Serif";
+  --font-weight: 300;
+  --font-size: 20px;
+}
+
+body {
+  font-family: var(--font-serif-2), sans-serif;
+  background-color: #fafafa;
+  font-size: var(--font-size);
+  font-weight: var(--font-weight);
+}
+
+footer {
+  width: 50%;
+  text-align: center;
+  margin: auto;
+  margin-bottom: 5rem;
+}
+
+a,
+a:hover,
+a:visited,
+a:link,
+a:active {
+  text-decoration: none;
+  color: var(--link-color);
+  font-weight: bold;
+}
+
+a:hover {
+  text-decoration: underline;
+  filter: brightness(0.8);
+  color: var(--link-color);
+}
+
+td {
+  background-color: rgb(204, 226, 226);
+}
+
+table {
+  text-align: center;
+}
+
+/* specific */
+
+.navbar {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-title {
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropdown-title {
+  background-color: #f1f1f1;
+}
+
+.dropdown {
+  display: inline-block;
+}
