@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"
+    integrity="sha512-EZLkOqwILORob+p0BXZc+Vm3RgJBOe1Iq/0fiI7r/wJgzOFZMlsqTa29UEl6v6U6gsV4uIpsNZoV32YZqrCRCQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <title>Open Forum</title>
+</head>
+
+<body>
+  <div class="content">
+    <h1>Open Forums</h1>
+
+    <label for="title">Post title</label>
+    <input type="text" name="post-title" id="post-title"> <br>
+    <textarea name="comment" id="post-content" cols="30" rows="10">
+
+    </textarea> <br>
+    <button id="post-btn">Submit</button>
+
+    <div id="post-list">
+    </div>
+
+    <script>
+      const postBtn = document.getElementById('post-btn')
+      const postTitle = document.getElementById('post-title')
+      const postContent = document.getElementById('post-content')
+
+      function getPost() {
+        const post =  {
+          title: postTitle.value,
+          content: postContent.value
+        }
+
+        return `<div class="post">
+          <h3>${post.title}</h3>
+          <div class="post-content">${post.content}</div>
+        </div>`
+      }
+
+      const postList = document.getElementById('post-list')
+      postBtn.onclick = () => {
+        postList.innerHTML += getPost()
+      }
+    </script>
+
+  </div>
+</body>
+
+</html>
