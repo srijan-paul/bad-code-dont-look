@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"
+    integrity="sha512-EZLkOqwILORob+p0BXZc+Vm3RgJBOe1Iq/0fiI7r/wJgzOFZMlsqTa29UEl6v6U6gsV4uIpsNZoV32YZqrCRCQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"
+    integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <title>Assignments</title>
+</head>
+
+<body>
+  <div class="content">
+    <h3>Q1</h3>
+    <label for="basic-salary">Basic salary: </label>
+    <input type="number" name="basic-salary" id="basic-salary">
+    <button type="button" id="q1-btn">Go</button>
+    <div id="hra"></div>
+    <div id="dra"></div>
+    <div id="gross-salary"></div>
+
+    <hr>
+
+    <div class="q2">
+      <h3>Q2</h3>
+      <input type="number" name="a" id="number-1">
+      <select name="op" id="op">
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="*">*</option>
+      </select>
+      <input type="number" name="b" id="number-2">
+      <button id="perform-op">go</button>
+      <div id="result"></div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="q3">
+    <h3>Q3</h3>
+    <label for="month">Month: </label>
+    <select name="month" id="month">
+      <option value="Jan">Jan</option>
+      <option value="Feb">Feb</option>
+      <option value="Mar">Mar</option>
+      <option value="Apr">Apr</option>
+      <option value="May">May</option>
+      <option value="Jun">Jun</option>
+      <option value="Jul">Jul</option>
+      <option value="Aug">Aug</option>
+      <option value="Sep">Sep</option>
+      <option value="Oct">Oct</option>
+      <option value="Nov">Nov</option>
+    </select>
+    <div id="num-days"></div>
+  </div>
+  <hr>
+
+  <div class="q4">
+    <label for="p">P: </label>
+    <input type="number" name="p" id="p">
+    <label for="t">t: </label>
+    <input type="number" name="t" id="t">
+    <label for="r">r: </label>
+    <input type="number" name="r" id="r">
+    <label for="n">n: </label>
+    <input type="number" name="n" id="n">
+    <button id="calc-ci">
+      Go
+    </button>
+    <div id="ci"></div>
+  </div>
+
+  <hr>
+
+  <div class="q5">
+    <h3>Q5</h3>
+    <label for="">n: </label>
+    <input type="number" name="" id="fact-input">
+    <button id="calc-fact">Go</button>
+    <div id="fact"></div>
+  </div>
+
+  <script>
+    const id = (x) => document.getElementById(x)
+    const baseUrl = `http://localhost:3000`
+
+    function q1() {
+      const input = document.getElementById('basic-salary');
+      const basicSalary = input.value
+      const btn = document.getElementById('q1-btn')
+
+      btn.addEventListener('click', async () => {
+        const url = `http://localhost:3000/1?basic_salary=${basicSalary}`
+        const res = await axios.get(url)
+        const { hra, dra, gross } = res.data
+        console.log(hra, dra, gross)
+        id('hra').innerHTML = `HRA: ${hra}`
+        id('dra').innerHTML = `DRA: ${dra}`
+        id('gross-salary').innerHTML = `Gross salary: ${gross}`
+      })
+    }
+
+    function q2() {
+      const btn = id('perform-op')
+
+      btn.onclick = async () => {
+        const a = id('number-1').value
+        const b = id('number-2').value
+        const op = id('op').value
+        const url = `${baseUrl}/2?op=${op}&a=${a}&b=${b}`
+        const { data } = await axios.get(url)
+        id('result').innerText = data
+      }
+    }
+
+    function q3() {
+      const monthSelect = id('month')
+      monthSelect.onchange = async () => {
+        const month = monthSelect.value
+        const url = `http://localhost:3000/3?month=${month}`
+        const { data } = await axios.get(url)
+        id('num-days').innerText = data
+      }
+    }
+
+    function q4() {
+      id('calc-ci').addEventListener('click', () => {
+        const [p, r, n, t] = ['p', 'r', 'n', 't'].map(x => id(x).value)
+        const ci = p * ((1 + r / n) ** (n * t))
+        id('ci').innerText = ci
+      })
+    }
+
+    function q5() {
+      id('calc-fact').addEventListener('click', () => {
+        const n = id('fact-input').value
+        const nFact = ((x) => {
+          let xFact = 1
+          for (let i = 1; i <= x; ++i) xFact *= i
+          return xFact
+        })(n)
+        id('fact').value = nFact
+      })
+    }
+
+    q1()
+    q2()
+    q3()
+    q4()
+    q5()
+  </script>
+</body>
+
+
+</html>

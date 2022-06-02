@@ -1,0 +1,19 @@
+{
+  "name": "assignment-node",
+  "version": "1.0.0",
+  "main": "build/index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc --build",
+    "watch": "tsc --watch",
+    "dev": "node build/index.js"
+  },
+  "dependencies": {
+    "@types/cors": "^2.8.12",
+    "cors": "^2.8.5",
+    "eslint": "^8.14.0",
+    "express": "^4.18.1",
+    "prettier": "^2.6.2",
+    "typescript": "^4.6.4"
+  }
+}
