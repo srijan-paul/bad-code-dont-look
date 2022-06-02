@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"
+    integrity="sha512-EZLkOqwILORob+p0BXZc+Vm3RgJBOe1Iq/0fiI7r/wJgzOFZMlsqTa29UEl6v6U6gsV4uIpsNZoV32YZqrCRCQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"
+    integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <title>Student Database</title>
+</head>
+
+<body>
+  <br>
+  <div class="container">
+    <h2>ERP</h2>
+    <hr>
+    <ul style="display: flex; flex-direction: row; gap: 1rem">
+      <li><a href="create.html">Create table</a></li>
+      <li><a href="display.html">View students</a></li>
+      <li><a href="new.html">New entry</a></li>
+      <li><a href="update.html">Update</a></li>
+      <li><a href="delete.html">Delete</a></li>
+    </ul>
+
+    <h3>Students:</h3>
+
+    <table id="table">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>email</th>
+        <th>Branch</th>
+        <th>Photo</th>
+      </tr>
+    </table>
+
+    <h3>Faculty:</h3>
+
+    <table id="table-teachers">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone no</th>
+        <th>Field</th>
+        <th>Picture</th>
+      </tr>
+    </table>
+  </div>
+
+  <script>
+    async function main() {
+      const table = document.getElementById('table')
+      const res = await axios.get('http://localhost:3000/api/student')
+      for (const entry of res.data) {
+        const randomSeed = Math.floor(Math.random() * 100) + 'dhanrajbadboy'
+        table.innerHTML += `
+          <tr>
+            <td> ${entry.id} </td>
+            <td> ${entry.firstname} ${entry.lastname} </td>
+            <td> ${entry.email} </td>
+            <td> ${entry.branch} </td>
+            <td> <img src="https://avatars.dicebear.com/api/micah/${entry.id}${randomSeed}.jpg" width="80" height="80"> </td>
+          </tr>
+        `
+      }
+
+      const teacherTable = document.getElementById('table-teachers')
+      const resTeachers = await axios.get('http://localhost:3000/api/teacher')
+      console.log(resTeachers.data)
+      for (const {id, email, name, phone, subject} of resTeachers.data) {
+        const randomSeed = Math.floor(Math.random() * 100) + 'dhanrajbadboy'
+        teacherTable.innerHTML += `
+          <tr>
+            <td> ${id} </td>
+            <td> ${name} </td>
+            <td> ${email}</td>
+            <td> ${phone}</td>
+            <td> ${subject} </td>
+            <td> <img src="https://avatars.dicebear.com/api/micah/${id}${randomSeed}.jpg" width="80" height="80"> </td>
+          </tr>
+        `
+      }
+    }
+
+    main()
+  </script>
+</body>
+
+</html>

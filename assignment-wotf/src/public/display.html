@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"
+    integrity="sha512-EZLkOqwILORob+p0BXZc+Vm3RgJBOe1Iq/0fiI7r/wJgzOFZMlsqTa29UEl6v6U6gsV4uIpsNZoV32YZqrCRCQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"
+    integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <title>Student Database - View</title>
+  <style>
+    .field-name {
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <br>
+  <div class="container">
+    <h2>View Students</h2>
+    <a href="index.html">back to home</a>
+    <br>
+    <div id="students" class="">
+
+    </div>
+  </div>
+
+  <script>
+    async function main() {
+      try {
+        const res = await axios.get('http://localhost:3000/api/student')
+        if (res.status === 200) {
+          const data = res.data
+          const div = document.getElementById('students')
+
+          const fieldName = s => `<span class="field-name">${s}</span>`
+          const fieldValue = s => `<span class="field-value">${s}</span>`
+          const field = (name, value) => `<div>${fieldName(name)}: ${fieldValue(value)}<div>\n`
+
+          for (const record of data) {
+            const html = `<p class="student-info">\n` +
+              field('Name', `${record.firstname} ${record.lastname}`) +
+              field('Email', record.email) +
+              field('Branch', record.branch) +
+              '</p><hr />'
+            div.innerHTML += html
+          }
+        }
+      } catch (err) {
+        console.error(err)
+      }
+    }
+
+    main()
+  </script>
+</body>
+
+</html>

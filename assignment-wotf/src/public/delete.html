@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"
+    integrity="sha512-EZLkOqwILORob+p0BXZc+Vm3RgJBOe1Iq/0fiI7r/wJgzOFZMlsqTa29UEl6v6U6gsV4uIpsNZoV32YZqrCRCQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"
+    integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <title>Student Database - Create</title>
+</head>
+
+<body>
+  <br>
+  <div class="container">
+    <h2>Delete record</h2>
+    <p style="color: gray;">Enter the registration number of the student to delete</p>
+    <form>
+      <label for="regdNo">Registration number</label>
+      <input type="text" name="regdNo" id="regdNo" placeholder="190XXXX">
+      <input class="button-primary" type="submit" value="Delete" id="delete">
+    </form>
+
+    <div id="result" style="color: rgb(83, 132, 83);">
+
+    </div>
+  </div>
+
+  <script>
+    const btn = document.getElementById('delete')
+    btn.onclick = async e => {
+      e.preventDefault()
+      const id = document.getElementById('regdNo').value
+      const res = await axios.post('http://localhost:3000/api/student-delete', { id, foo: 'bar' })
+      if (res.status === 200) {
+        document.getElementById('result').innerText = 'Successfully deleted !'
+      }
+    }
+  </script>
+</body>
+
+</html>

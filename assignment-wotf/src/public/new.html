@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"
+    integrity="sha512-EZLkOqwILORob+p0BXZc+Vm3RgJBOe1Iq/0fiI7r/wJgzOFZMlsqTa29UEl6v6U6gsV4uIpsNZoV32YZqrCRCQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"
+    integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <title>Student Database - New</title>
+</head>
+
+<body>
+  <br>
+  <div class="container">
+    <h2>Student Registration</h2>
+    <a href="index.html">back to home</a>
+    <form id="student-form">
+      <div class="row">
+        <div class="six columns">
+          <label for="firstName">First Name</label>
+          <input class="u-full-width" type="text" name="firstname" placeholder="Srijan">
+        </div>
+        <div class="six columns">
+          <label for="exampleRecipientInput">Last Name</label>
+          <input class="u-full-width" type="text" name="lastname" placeholder="Paul">
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="six columns">
+          <label for="studentEmail">email</label>
+          <input class="u-full-width" type="email" placeholder="test@mailbox.com" name="email">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="six columns">
+          <label for="branch">Branch</label>
+          <select class="u-full-width" name="branch">
+            <option value="cse">CSE</option>
+            <option value="ece">ECE</option>
+            <option value="eee">EEE</option>
+          </select>
+        </div>
+      </div>
+      <input class="button-primary" type="submit" value="Submit" id="go">
+    </form>
+
+    <hr>
+
+    <h2>Insert Faculty Details</h2>
+    <form id="teacher-form">
+      <div class="row">
+        <div class="six columns">
+          <label for="teacherName">Name</label>
+          <input class="u-full-width" type="text" name="name" placeholder="Srijan">
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="six columns">
+          <label for="teacherEmail">email</label>
+          <input class="u-full-width" type="email" placeholder="test@mailbox.com" name="email">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="six columns">
+          <label for="teacherPhone">phone</label>
+          <input class="u-full-width" type="tel" placeholder="+91 9437----" name="phone">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="six columns">
+          <label for="subject">Subject</label>
+          <select class="u-full-width" name="subject">
+            <option value="digital signal processing">Digital Signal Processing</option>
+            <option value="data structure and algorithms">Data Structure and Algorithms</option>
+            <option value="internet and web technology">Internet and Web Technology</option>
+            <option value="physics">Physics</option>
+          </select>
+        </div>
+      </div>
+      <input class="button-primary" type="submit" value="Submit" id="go-teacher">
+    </form>
+
+
+    <div id="status">
+
+    </div>
+  </div>
+
+  <script>
+    const getFormData = id => {
+      console.log(document.getElementById(id))
+      return new FormData(document.getElementById(id))
+    }
+    const studentSubmitBtn = document.getElementById('go')
+
+    function formToKV(formData) {
+      const reqBody = {}
+      for (const [key, value] of formData.entries()) {
+        reqBody[key] = value
+      }
+      return reqBody
+    }
+
+    studentSubmitBtn.onclick = async e => {
+      const data = new FormData(e.target.form) 
+      e.preventDefault()
+      const reqBody = formToKV(data)
+      await axios.post('http://localhost:3000/api/student', reqBody)
+    }
+
+    const teacherSubmitBtn = document.getElementById('go-teacher')
+    teacherSubmitBtn.onclick = async e => {
+      console.log(e.target.form)
+      const data = new FormData(e.target.form) 
+      e.preventDefault()
+      const reqBody = formToKV(data)
+      await axios.post('http://localhost:3000/api/teacher', reqBody)
+    }
+  </script>
+</body>
+
+</html>

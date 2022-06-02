@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"
+    integrity="sha512-EZLkOqwILORob+p0BXZc+Vm3RgJBOe1Iq/0fiI7r/wJgzOFZMlsqTa29UEl6v6U6gsV4uIpsNZoV32YZqrCRCQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <title>Student Database - update</title>
+</head>
+
+<body>
+  <br>
+  <div class="container">
+    <h2>Update table</h2>
+    <form>
+      <div class="row">
+        <div class="six columns">
+          <label for="firstName">First Name</label>
+          <input class="u-full-width" type="text" id="firstName" placeholder="Srijan">
+        </div>
+        <div class="six columns">
+          <label for="exampleRecipientInput">Last Name</label>
+          <input class="u-full-width" type="text" id="lastName" placeholder="Paul">
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="six columns">
+          <label for="studentEmail">email</label>
+          <input class="u-full-width" type="email" placeholder="test@mailbox.com" id="studentEmail">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="six columns">
+          <label for="regdNo">Registration number</label>
+          <input class="u-full-width" type="text" placeholder="190XXXXX" id="regdNo">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="six columns">
+          <label for="branch">Branch</label>
+          <select class="u-full-width" id="branch">
+            <option value="cse">CSE</option>
+            <option value="ece">ECE</option>
+            <option value="eee">EEE</option>
+          </select>
+        </div>
+      </div>
+      <input class="button-primary" type="submit" value="Submit">
+    </form>
+  </div>
+</body>
+
+</html>
