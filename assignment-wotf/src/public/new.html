@@ -41,6 +41,20 @@
 
       <div class="row">
         <div class="six columns">
+          <label for="teacherPhone">Password</label>
+          <input class="u-full-width" type="password" name="phone">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="six columns">
+          <label for="teacherPhone">Picture</label>
+          <input type="file" id="myFile" name="filename">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="six columns">
           <label for="branch">Branch</label>
           <select class="u-full-width" name="branch">
             <option value="cse">CSE</option>
@@ -114,7 +128,7 @@
     }
 
     studentSubmitBtn.onclick = async e => {
-      const data = new FormData(e.target.form) 
+      const data = new FormData(e.target.form)
       e.preventDefault()
       const reqBody = formToKV(data)
       await axios.post('http://localhost:3000/api/student', reqBody)
@@ -123,7 +137,7 @@
     const teacherSubmitBtn = document.getElementById('go-teacher')
     teacherSubmitBtn.onclick = async e => {
       console.log(e.target.form)
-      const data = new FormData(e.target.form) 
+      const data = new FormData(e.target.form)
       e.preventDefault()
       const reqBody = formToKV(data)
       await axios.post('http://localhost:3000/api/teacher', reqBody)

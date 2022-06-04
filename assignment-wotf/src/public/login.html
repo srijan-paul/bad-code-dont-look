@@ -17,14 +17,56 @@
 <body>
   <div class="container" style="margin-top: 5rem;">
     <h3>Student log in</h3>
+    <a href="index.html">Back to home</a>
     <form>
       <label for="username">Username: </label>
       <input type="text" name="username" id="username">
       <label for="username">Password : </label>
-      <input type="password" name="password" id="">
+      <input type="password" name="password" id="password">
       <br>
-      <button type="submit">Log in</button>
+      <button type="submit" id="login">Log in</button>
+      <div id="status">
+
+      </div>
     </form>
+
+    <script>
+      const id = x => document.getElementById(x)
+
+      async function logIn(name, password) {
+        return await axios.post('http://localhost:3000/api/login', { name, password })
+      }
+
+      async function main() {
+        const { data } = await axios.get('http://localhost:3000/api/student')
+        const names = data.map(x => x.firstname + ' ' + x.lastname)
+
+        const submitBtn = id('login')
+
+        const getUserByName = (name) => {
+          const index = names.indexOf(name)
+          return data[index]
+        }
+
+        submitBtn.onclick = e => {
+          e.preventDefault()
+          const username = id('username').value
+          const password = id('password').value
+          const statusDiv = id('status')
+          if (names.includes(username) && password === 'password') {
+            statusDiv.innerText = 'Logged in Successfully!'
+            statusDiv.style.color = 'green'
+
+            window.localStorage.setItem('id', getUserByName(username).id)
+          } else {
+            statusDiv.innerText = 'Incorrect username or password'
+            statusDiv.style.color = 'red'
+          }
+        }
+      }
+
+      main()
+    </script>
   </div>
 </body>
 

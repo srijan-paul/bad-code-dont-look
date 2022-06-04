@@ -25,7 +25,12 @@
       <li><a href="new.html">New entry</a></li>
       <li><a href="update.html">Update</a></li>
       <li><a href="delete.html">Delete</a></li>
+      <li><a href="login.html">Log in</a></li>
     </ul>
+
+    <div id="currentUser">
+
+    </div>
 
     <h3>Students:</h3>
 
@@ -54,26 +59,108 @@
   </div>
 
   <script>
+    const $id = x => document.getElementById(x)
+
+    function getCurrentUser(allUsers) {
+      const id = window.localStorage.getItem('id')
+      if (!id) return null
+      for (const user of allUsers) {
+        if (user.id == id) return user
+      }
+      return null
+    }
+
+    function displayCurrentUser({ firstname, lastname }) {
+      $id('currentUser').innerHTML = `Currently logged in as <b style="color: green;">${firstname} ${lastname}</b>`
+    }
+
     async function main() {
-      const table = document.getElementById('table')
+      const table = $id('table')
       const res = await axios.get('http://localhost:3000/api/student')
-      for (const entry of res.data) {
+
+      const currentUser = getCurrentUser(res.data)
+      if (currentUser) displayCurrentUser(currentUser)
+
+      for (const { id, firstname, lastname, email, branch } of res.data) {
         const randomSeed = Math.floor(Math.random() * 100) + 'dhanrajbadboy'
         table.innerHTML += `
-          <tr>
-            <td> ${entry.id} </td>
-            <td> ${entry.firstname} ${entry.lastname} </td>
-            <td> ${entry.email} </td>
-            <td> ${entry.branch} </td>
-            <td> <img src="https://avatars.dicebear.com/api/micah/${entry.id}${randomSeed}.jpg" width="80" height="80"> </td>
+          <tr id="student-${id}">
+            <td> ${id} </td>
+
+            <!-- name -->
+
+            <td id="student-name-${id}"> ${firstname} ${lastname} </td>
+            <td id="student-name-${id}-edit-td" style="display: none">
+              <input type="text" value="${firstname} ${lastname}" id="student-name-${id}-edit">
+            </td>
+
+
+            <!-- email -->
+            <td id="student-email-${id}"> ${email} </td>
+            <td id="student-email-${id}-edit-td" style="display: none">
+              <input type="text" value="${email}" id="student-email-${id}-edit">
+            </td>
+
+
+            <!-- branch -->
+            <td id="student-branch-${id}"> ${branch} </td>
+            <td id="student-branch-${id}-edit-td" style="display: none">
+              <input type="text" value="${branch}" id="student-branch-${id}-edit">
+            </td>
+
+
+            <td> <img src="https://avatars.dicebear.com/api/micah/${id}${firstname}.jpg" width="80" height="80"> </td>
+            ${currentUser ? `<td> <button id="edit-student-${id}">Edit</button> </td>` : ``}
           </tr>
         `
       }
 
+      async function updateStudent(body) {
+        return await axios.patch('http://localhost:3000/api/student', body)
+      }
+
+      const edit = async (studentId, editBtn) => {
+        const fields = ['name', 'email', 'branch']
+        for (const field of ['name', 'email', 'branch']) {
+          const elementId = `student-${field}-${studentId}`
+          const el = $id(elementId)
+          el.style.display = 'none'
+          const td = $id(`${elementId}-edit-td`)
+          td.style.display = 'table-cell'
+        }
+
+
+        editBtn.innerText = 'Save'
+        editBtn.onclick = async () => {
+          const [name, email, branch] = await Promise.all(fields.map(async field => {
+            const el = $id(`student-${field}-${studentId}`)
+            const td = $id(`student-${field}-${studentId}-edit-td`)
+            const inputTag = $id(`student-${field}-${studentId}-edit`)
+            const value = inputTag.value
+            el.innerText = value
+
+            el.style.display = 'table-cell'
+            td.style.display = 'none'
+            editBtn.innerText = 'Edit'
+            editBtn.onclick = () => edit(studentId, editBtn)
+
+            return value
+          }))
+
+          const res = await updateStudent({ id: studentId, name, branch, email })
+          console.log(res.status)
+        }
+
+      }
+
+      for (const { id } of res.data) {
+        const editBtn = $id(`edit-student-${id}`)
+        if (editBtn) editBtn.onclick = () => edit(id, editBtn)
+      }
+
       const teacherTable = document.getElementById('table-teachers')
       const resTeachers = await axios.get('http://localhost:3000/api/teacher')
-      console.log(resTeachers.data)
-      for (const {id, email, name, phone, subject} of resTeachers.data) {
+      for (const { id, email, name, phone, subject } of resTeachers.data) {
         const randomSeed = Math.floor(Math.random() * 100) + 'dhanrajbadboy'
         teacherTable.innerHTML += `
           <tr>
@@ -82,7 +169,7 @@
             <td> ${email}</td>
             <td> ${phone}</td>
             <td> ${subject} </td>
-            <td> <img src="https://avatars.dicebear.com/api/micah/${id}${randomSeed}.jpg" width="80" height="80"> </td>
+            <td> <img src="https://avatars.dicebear.com/api/micah/${id}${name}.jpg" width="80" height="80"> </td>
           </tr>
         `
       }

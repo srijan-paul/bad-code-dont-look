@@ -1,4 +1,4 @@
-import Express from 'express';
+import Express, { application } from 'express';
 import path from 'path';
 import pg from 'pg';
 
@@ -17,8 +17,8 @@ app.use(Express.json())
 app.use(Express.urlencoded({ extended: true }))
 
 interface StudentDetails {
-  firstName: string;
-  lastName: string;
+  firstname: string;
+  lastname: string;
   email: string;
   regdNo: string;
   branch: string;
@@ -60,6 +60,31 @@ app.get("/api/student", async (_, res) => {
   res.status(500);
   res.end();
   throw err;
+})
+
+app.patch("/api/student", async (req, res) => {
+  console.log(req.body)
+  const { name, email, branch, id } = req.body
+  const [firstname, lastname] = name.split(' ')
+  if (!(firstname && lastname)) return res.status(400).end()
+
+  const query = `UPDATE students
+    SET firstname = '${firstname}',
+        lastname = '${lastname}',
+        email = '${email}',
+        branch = '${branch}'
+    WHERE id = ${id}`
+  console.log(query)
+
+  const [result, err] = await runQuery(query)
+
+  if (!result) {
+    res.status(500).end();
+    throw err;
+  }
+
+  res.status(200)
+  res.end()
 })
 
 app.get("/api/teacher", async (_, res) => {
@@ -109,4 +134,12 @@ app.post('/api/student-delete', async (req, res) => {
   throw err
 })
 
-app.listen(3000, () => console.log('Listening on port 5000'))
+app.post('/api/login', async (req, res) => {
+  const { name, password } = req.body
+  const query = `SELECT * FROM student where username = ${name} AND password = ${password}`
+  const [studentData] = await runQuery(query)
+  if (studentData) return res.json(studentData)
+  res.status(402)
+})
+
+app.listen(3000, () => console.log('Listening on port 3000'))

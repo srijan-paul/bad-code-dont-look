@@ -25,6 +25,10 @@
     <h2>View Students</h2>
     <a href="index.html">back to home</a>
     <br>
+
+    <label for=""> Search: </label>
+    <input type="text" name="name" id="searchname">
+    <button id="search">search</button>
     <div id="students" class="">
 
     </div>
@@ -34,6 +38,7 @@
     async function main() {
       try {
         const res = await axios.get('http://localhost:3000/api/student')
+
         if (res.status === 200) {
           const data = res.data
           const div = document.getElementById('students')
@@ -42,13 +47,21 @@
           const fieldValue = s => `<span class="field-value">${s}</span>`
           const field = (name, value) => `<div>${fieldName(name)}: ${fieldValue(value)}<div>\n`
 
-          for (const record of data) {
-            const html = `<p class="student-info">\n` +
+          document.getElementById('search').onclick = (e) => {
+            e.preventDefault()
+
+            const searchTerm = document.getElementById('searchname').value
+            const recordIdx = res.data.map(({firstname, lastname}) => `${firstname} ${lastname}`).indexOf(searchTerm)
+            const record = res.data[recordIdx]
+
+            const html = `<p class="student-info">
+              <img src="https://avatars.dicebear.com/api/micah/${record.id}${record.firstname}.jpg" width="200" height="200">` +
               field('Name', `${record.firstname} ${record.lastname}`) +
               field('Email', record.email) +
               field('Branch', record.branch) +
               '</p><hr />'
-            div.innerHTML += html
+
+            div.innerHTML = html
           }
         }
       } catch (err) {
